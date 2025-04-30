@@ -4,10 +4,13 @@ import { TypeAnimation } from 'react-type-animation';
 
 import Services from "./component/services";
 import About from "./component/about";
+import Pricing from "./component/pricing";
+import Blog from "./component/blog";
 import Contact from "./component/contact";
 import Footer from "./component/footer";
 import Portfolio from "./component/portfolio";
 import Review from "./component/testimonial";
+import Switcher from "./component/switcher";
 import Navbar from "./component/navbar";
 import Link from 'next/link';
 
@@ -55,8 +58,11 @@ function Home() {
       <Services />
       <Portfolio />
       <Review />
+      <Pricing />
+      <Blog />
       <Contact />
       <Footer />
+      <Switcher />
     </>
   );
 }
