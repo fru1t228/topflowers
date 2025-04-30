@@ -3,18 +3,40 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { Link as Link2, scrollSpy, scroller } from "react-scroll"
+import { useParams, useRouter, usePathname } from 'next/navigation'
 import { bouquetsData, type BouquetData } from '@/app/component/portfolio'
 
 export default function BouquetPage() {
+  const router = useRouter()
+  const pathname = usePathname()
   const { slug } = useParams()
   const bouquet = bouquetsData.find((b: BouquetData) => b.slug === slug)
+
+  const handleBuyClick = () => {
+    router.push('/')
+  }
+
+  React.useEffect(() => {
+    if (pathname === '/') {
+      scroller.scrollTo('order', {
+        duration: 800,
+        delay: 0,
+        smooth: 'easeInOutQuart',
+        offset: -100
+      })
+    }
+  }, [pathname])
+
+  React.useEffect(() => {
+    scrollSpy.update()
+  }, [])
 
   if (!bouquet) {
     return (
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-2xl font-semibold text-gray-800">Букет не найден</h1>
-        <Link href="/catalog" className="text-pink-600 hover:text-pink-700 mt-4 inline-block">
+        <Link href="/" className="text-pink-600 hover:text-pink-700 mt-4 inline-block">
           ← Вернуться к каталогу
         </Link>
       </div>
@@ -78,7 +100,10 @@ export default function BouquetPage() {
                 </p>
               </div>
 
-              <button className="btn bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-white rounded-full w-full md:w-auto text-lg px-8 py-3 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+              <button
+                onClick={handleBuyClick}
+                className="btn bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-white rounded-full w-full md:w-auto text-lg px-8 py-3 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg inline-block text-center cursor-pointer"
+              >
                 Купить букет
               </button>
             </div>

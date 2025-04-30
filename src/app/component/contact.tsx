@@ -1,16 +1,41 @@
-import React from "react";
+'use client'
 
-import { FiPhone,FiMail,FiMapPin  } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
+import { bouquetsData } from "./portfolio";
+import { useSearchParams } from 'next/navigation';
 
 export default function Contact() {
-    const bouquets = [
-        { id: 1, name: "Букет «Нежность» — 3500₽" },
-        { id: 2, name: "Букет «Любовь» — 4200₽" },
-        { id: 3, name: "Букет «Тёплое настроение» — 3800₽" },
-        { id: 4, name: "Букет «Романтика» — 3900₽" },
-        { id: 5, name: "Букет «Весна» — 3600₽" },
-        { id: 6, name: "Букет «Радость» — 4100₽" },
-    ];
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            if (window.location.hash === '#order') {
+                const orderSection = document.getElementById('order');
+                if (orderSection) {
+                    setTimeout(() => {
+                        const elementPosition = orderSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - 100;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }
+        };
+
+        // Вызываем сразу при монтировании
+        handleHashChange();
+
+        // Добавляем обработчик изменения хэша
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Очищаем обработчик при размонтировании
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        };
+    }, []);
 
     return (
         <>
@@ -60,9 +85,9 @@ export default function Contact() {
                                                 required
                                             >
                                                 <option value="">Выберите букет</option>
-                                                {bouquets.map((bouquet) => (
-                                                    <option key={bouquet.id} value={bouquet.id}>
-                                                        {bouquet.name}
+                                                {bouquetsData.map((bouquet) => (
+                                                    <option key={bouquet.id} value={bouquet.slug}>
+                                                        {bouquet.title} — {bouquet.price.toLocaleString()} ₽
                                                     </option>
                                                 ))}
                                             </select>
@@ -120,5 +145,4 @@ export default function Contact() {
             </section>
         </>
     );
-
 }

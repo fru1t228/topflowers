@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <>
       {/* Start Footer */}
-      <footer className="py-8 bg-slate-800 dark:bg-gray-900">
+      <footer className="py-8 bg-slate-800 dark:bg-gray-900" id="footer">
         <div className="container">
           <div className="grid md:grid-cols-12 items-center">
             <div className="md:col-span-4">

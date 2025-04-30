@@ -11,12 +11,41 @@ export default function Navbar({navdark}:{navdark:boolean}){
   
   useEffect(()=>{
     window.addEventListener("scroll", windowScroll);
-    window.scrollTo(0, 0);
+    
+    // Инициализируем scrollSpy с правильными настройками
     scrollSpy.update();
+    
+    // Обрабатываем хэш при загрузке страницы
+    if (window.location.hash) {
+      const element = document.getElementById(window.location.hash.substring(1));
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+
     return()=>{
       window.removeEventListener( 'scroll', windowScroll )
     }
   },[])
+
+  // Добавляем обработчик изменения хэша
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        const element = document.getElementById(window.location.hash.substring(1));
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const toggleMenu = () => {
     setMenu(!isOpen)
@@ -122,7 +151,7 @@ export default function Navbar({navdark}:{navdark:boolean}){
             </Link2>
             <Link2
               className="nav-item"
-              to="contact"
+              to="footer"
               activeclassname="active"
               spy={true}
               smooth={true}
@@ -130,6 +159,18 @@ export default function Navbar({navdark}:{navdark:boolean}){
             >
               <span className="nav-link text-lg md:text-xl font-medium transition-colors duration-300 hover:text-[#ec4899]">
                 Связаться с нами
+              </span>
+            </Link2>
+            <Link2
+              className="nav-item"
+              to="order"
+              activeclassname="active"
+              spy={true}
+              smooth={true}
+              duration={500}
+            >
+              <span className="nav-link text-lg md:text-xl font-medium transition-colors duration-300 hover:text-[#ec4899]">
+                Заказать
               </span>
             </Link2>
           </ul>
